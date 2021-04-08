@@ -2,6 +2,7 @@
 from dataclasses import dataclass
 from PIL import Image
 import math
+import random
 
 
 @dataclass
@@ -32,11 +33,15 @@ def msg_to_pixels():
     # use each character to generate a pixel by taking it's ASCII decimal value
     for j in range(0, sqr):
         for k in range(0, sqr):
+            # If we've run out of message chars, generate junk pixels to fill the rest
+            # of the matrix
             if i == len(asciiz):
-                # print(str(i) + '--' + str(len(asciiz)))
-                break
+                # 32-125 is space to | in ascii, anything else wouldn't be a proper
+                # character to rgb value, and would be obvious that it's junk data
+                randrgb = random.randint(32, 125)
+                img.putpixel((k, j), (randrgb, randrgb, randrgb))
             else:
-                img.putpixel((j, k), (asciiz[i].r, asciiz[i].g, asciiz[i].b))
+                img.putpixel((k, j), (asciiz[i].r, asciiz[i].g, asciiz[i].b))
                 i += 1
 
     img.save('encoded.png')

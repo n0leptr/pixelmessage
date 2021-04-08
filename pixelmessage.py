@@ -31,11 +31,13 @@ def msg_to_pixels():
             img.putpixel((p, q), (0, 0, 0))
     # use each character to generate a pixel by taking it's ASCII decimal value
     for j in range(0, sqr):
-        for k in range(0, 8):
-            img.putpixel((j, k), (asciiz[i].r, asciiz[i].g, asciiz[i].b))
-            i += 1
-            if i == len(message):
-                continue
+        for k in range(0, sqr):
+            if i == len(asciiz):
+                # print(str(i) + '--' + str(len(asciiz)))
+                break
+            else:
+                img.putpixel((j, k), (asciiz[i].r, asciiz[i].g, asciiz[i].b))
+                i += 1
 
     img.save('encoded.png')
     return img
